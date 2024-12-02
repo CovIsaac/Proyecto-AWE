@@ -1,0 +1,14 @@
+<div class="container" >
+    <div class="row">
+      <div class="col-md-4" *ngFor="let mezcal of mezcales">
+        <div class="card mb-4">
+          <img [src]="mezcal.image" class="card-img-top" [alt]="mezcal.name" />
+          <div class="card-body">
+            <h5 class="card-title">{{ mezcal.name }}</h5>
+            <p class="card-text">{{ mezcal.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
