@@ -1,16 +1,24 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; // Usa HttpClient directamente
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+export interface Mezcal {
+  id: number;
+  name: string;
+  description: string;
+  flavor: string;
+  image: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class MezcalService {
-  private jsonUrl = 'assets/data.json';
+  private apiUrl = 'http://localhost:3000/mezcales'; // URL del backend
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getMezcales(): Observable<any> {
-    return this.http.get<any>(this.jsonUrl);
+  getMezcales(): Observable<Mezcal[]> {
+    return this.http.get<Mezcal[]>(this.apiUrl);
   }
 }

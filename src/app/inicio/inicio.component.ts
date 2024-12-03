@@ -1,12 +1,22 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { MezcalService, Mezcal } from '../mezcal.service';
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, HttpClientModule],
   templateUrl: './inicio.component.html',
-  styleUrl: './inicio.component.css'
+  styleUrls: ['./inicio.component.css']
 })
-export class InicioComponent {
+export class InicioComponent implements OnInit {
+  mezcales: Mezcal[] = [];
 
+  constructor(private mezcalService: MezcalService) { }
+
+  ngOnInit() {
+    this.mezcalService.getMezcales().subscribe(data => {
+      this.mezcales = data;
+    });
+  }
 }

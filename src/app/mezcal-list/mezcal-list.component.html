@@ -1,15 +1,59 @@
-<div class="container" >
-    <div class="row">
-      <div class="col-md-4" *ngFor="let mezcal of mezcales">
-        <div class="card mb-4">
-          <img [src]="mezcal.image" class="card-img-top" [alt]="mezcal.name" />
-          <div class="card-body">
-            <h5 class="card-title">{{ mezcal.name }}</h5>
-            <p class="card-text">{{ mezcal.description }}</p>
-            <h6>220 MXN</h6>
+<div class="container">
+  <div class="row mb-3" *ngIf="isLoggedIn()">
+    <div class="col-md-12 text-end">
+      <button class="btn btn-success" (click)="addMezcal()">Añadir Nuevo Sabor</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let mezcal of mezcales">
+      <div class="card mb-4">
+        <img [src]="'assets/img/flavors/' + mezcal.flavor + '.jpg'" class="card-img-top" [alt]="mezcal.name">
+        <div class="card-body">
+          <h5 class="card-title">{{ mezcal.name }}</h5>
+          <p class="card-text">{{ mezcal.description }}</p>
+          <h6>220 MXN</h6>
+          <div *ngIf="isLoggedIn()">
+            <button class="btn btn-primary" (click)="editMezcal(mezcal)">Editar</button>
+            <button class="btn btn-danger" (click)="deleteMezcal(mezcal.id)">Eliminar</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+
+  <!-- Formulario Modal para Agregar/Editar Mezcal -->
+  <div *ngIf="editMode" class="modal" tabindex="-1" style="display:block; background: rgba(0,0,0,0.5);">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ newMezcal.id === 0 ? 'Añadir Nuevo Mezcal' : 'Editar Mezcal' }}</h5>
+          <button type="button" class="btn-close" (click)="cancelEdit()"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="mezcalName" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="mezcalName" [(ngModel)]="newMezcal.name" name="mezcalName">
+            </div>
+            <div class="mb-3">
+              <label for="mezcalDescription" class="form-label">Descripción</label>
+              <textarea class="form-control" id="mezcalDescription" [(ngModel)]="newMezcal.description" name="mezcalDescription"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="mezcalFlavor" class="form-label">Sabor</label>
+              <input type="text" class="form-control" id="mezcalFlavor" [(ngModel)]="newMezcal.flavor" name="mezcalFlavor">
+            </div>
+            <div class="mb-3">
+              <label for="mezcalImage" class="form-label">URL de la Imagen</label>
+              <input type="text" class="form-control" id="mezcalImage" [(ngModel)]="newMezcal.image" name="mezcalImage">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="saveMezcal()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
